@@ -1,0 +1,38 @@
+<!doctype html>
+
+<!-- HTML Comments look like this -->
+
+<!-- HTML, HEAD, and BODY are optional elements. The browser will add them back in to the DOM if omitted from the source -->
+ <title>My First Web Page</title> <!-- Required for valid HTML -->
+ <style>
+	//In CSS comments look like this
+	p {color:red}
+	p#one {color:blue}
+	h1 {color:green}
+	.two {border: 1px solid black}
+	[type=password] {background-color:yellow}
+	div > p {background-color: grey}
+	p:nth-of-type(1) {border: 3px dotted red}
+ </style>
+
+
+<h1 id="one" style="" title="A tooltip" data-testid="abc123">Hello World</h1>
+<p id="one" class="two">This is a paragraph</p> <!--Invalid HTML. Duplicate ID attribute on page -->
+<p class="two">This is also a paragraph <!-- It is ok to reuse class attributes though -->
+<form>
+ <input type=checkbox id="abc"/> <!--inputs HAVE NO closing tag. They are void/empty. Therefore they dont have inner text -->
+ <label for="abc">Click the checkbox</label> <!--Make a big click target for the checkbox. Accessibility win++ -->
+ <input type=range>
+ <input value="Default text"> <!--Pre fills text box with value-->
+ <input placeholder="Default ghost text"> <!--Example text, but not real text (that e.g. must be deleted by user)-->
+</form>
+<div>
+ <p>A para</p>
+ <!--Closing paragraph elements is oficially optional in HTML. The browser takes care of it-->
+ <p>Another para
+ <section>
+  <p role=button>Another para</p>
+  <p>Another para</p>
+ </section>
+</div>
+<img src="https://edgewordstraining.co.uk/logo.png" alt="Edgewords logo">
