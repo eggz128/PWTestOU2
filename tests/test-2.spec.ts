@@ -4,9 +4,10 @@ test('Exercise 1', async ({ page }) => {
   await page.goto('https://www.edgewordstraining.co.uk/demo-site/');
   await page.locator('#menu-item-46').getByRole('link', { name: 'My account' }).click();
 
-  //Dont need to await locator definition
+  //Dont need to await locator definition - no search in the web app is performed at this time
+  //Can store and reuse locator definition
   const username = page.getByRole('textbox', { name: 'Username or email address' }).describe('Username text box'); //Give a "friendly name" for the locator in the HTML report
-  await username.click(); //Do need to await action that acts on the locator
+  await username.click(); //Do need to await action that acts on the locator. This is when the element search (followed by action) takes place.
   await username.fill('exampleuser@example.com');
   await page.locator('#password').click();
   await page.locator('#password').fill('examplepassword!!');
