@@ -14,7 +14,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   expect: {timeout: 6000}, //Sets expect timeout default to 6s (normally 5s)
-  timeout: !!process.env.CI ? 60_000 : 20_000, //If on CI (an env var CI is exists and is set to something/anything) - tests have 60s else 20s.
+  timeout: !!process.env.CI ? 60_000 : 30_000, //If on CI (an env var CI is exists and is set to something/anything) - tests have 60s else 30s (usual default).
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -31,17 +31,20 @@ export default defineConfig({
     baseURL: 'https://www.edgewordstraining.co.uk/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    launchOptions: {slowMo: 500},
-    trace: 'on-first-retry',
+    //launchOptions: {slowMo: 500},
+    trace: 'on',
     //headless: true,
     actionTimeout: 8000,
+    //headless: false,
+    video: 'on',
+    screenshot: 'on',
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome']},
     },
 
     {

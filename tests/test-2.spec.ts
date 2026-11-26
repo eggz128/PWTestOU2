@@ -24,7 +24,7 @@ test('Exercise 1', async ({ page }) => {
   await page.getByRole('link', { name: ' Log out' }).click();
 });
 
-test('Aria role', async ({ page }) => {
+test('Aria role', {tag: ['@Smoke', '@Regression']}, async ({ page }) => {
   await page.goto('https://www.edgewordstraining.co.uk/demo-site');
   //await page.getByRole('button', { name: ' Dismiss' }).click(); // is a custom unicode font character for x(close)
   //await page.getByRole('button', { name: 'Dismiss' }).click(); //Name does sub string match, so can drop the unicode character
@@ -35,7 +35,7 @@ test('Aria role', async ({ page }) => {
   await page.locator('xpath=//*[@class="woocommerce-store-notice__dismiss-link"]').click();
 })
 
-test('within', async ({ page }) => {
+test('within @Smoke', async ({ page }) => {
   await page.goto('https://www.edgewordstraining.co.uk/demo-site/product/cap/');
   const mainProductSection = page.locator('.summary.entry-summary');
   const addToCartButton = page.getByRole('button'); //Matches multiple on page buttons
