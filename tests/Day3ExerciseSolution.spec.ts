@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('test', async ({ page }) => {
-  test.slow(); //Test takes longer than 30s to run, so triple the timeout
+  //test.slow(); //Test takes longer than 30s to run, so triple the timeout
   await page.goto('https://www.edgewordstraining.co.uk/demo-site/');
   await page.locator('#menu-item-46').getByRole('link', { name: 'My account' }).click();
   await page.getByRole('textbox', { name: 'Username or email address' }).click();
