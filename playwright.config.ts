@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-
+import { TestOptions } from './tests/my-test'
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -11,7 +11,7 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<TestOptions>({
   testDir: './tests',
   expect: {timeout: 6000}, //Sets expect timeout default to 6s (normally 5s)
   timeout: !!process.env.CI ? 60_000 : 30_000, //If on CI (an env var CI is exists and is set to something/anything) - tests have 60s else 30s (usual default).
@@ -44,13 +44,18 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome']},
+      use: { 
+        ...devices['Desktop Chrome'],
+        person: 'Bob',
+      },
+      
     },
 
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'],
-        viewport: {width: 1920, height: 1080}
+        viewport: {width: 1920, height: 1080},
+        person: 'Alice',
        },
     },
 

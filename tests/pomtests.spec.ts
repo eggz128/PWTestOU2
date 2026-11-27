@@ -24,7 +24,7 @@ test('POM Login test', async ({ page }) => {
   // await loginPage.setPassword('edgewords123');
   // await loginPage.submitForm();
   //Or a "high level" service method that performs the whole task
-  await loginPage.doLogin('edgewords', 'edgewords123');
+  await loginPage.doLogin('edgewords', 'edgewords123'); //Keep test data in the test. Don't embed it directly in the POM.
 
   //Warning: Leaving locators public can be misued as an 'escape hatch' back to the html of the page
   //await loginPage.usernameTextBox.locator("xpath=./../../../div").click(); //negating the benefits of the POM
