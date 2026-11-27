@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('Exercise 1', async ({ page }) => {
+test('Exercise 1', {lock: 'cap'}, async ({ page }) => {
   await page.goto('https://www.edgewordstraining.co.uk/demo-site/');
   await page.locator('#menu-item-46').getByRole('link', { name: 'My account' }).click();
 

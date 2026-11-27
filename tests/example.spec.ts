@@ -1,4 +1,6 @@
-import { test, expect } from '@playwright/test'; //Get test() and expect() methods from PW to use here
+import { expect } from '@playwright/test'; //Get test() and expect() methods from PW to use here
+import { test } from './globalbeforeafter'
+
 
 //the test() method takes 2 args 'Test name', test code to run in function(){}
 // PW Actions should generally be "await"ed. Await can only be used in "async" functions 

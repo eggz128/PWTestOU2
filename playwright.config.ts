@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import { TestOptions } from './tests/my-test'
+export const STORAGE_STATE = 'user.json'
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -13,7 +14,7 @@ import { TestOptions } from './tests/my-test'
  */
 export default defineConfig<TestOptions>({
   testDir: './tests',
-  expect: {timeout: 6000}, //Sets expect timeout default to 6s (normally 5s)
+  expect: { timeout: 6000 }, //Sets expect timeout default to 6s (normally 5s)
   timeout: !!process.env.CI ? 60_000 : 30_000, //If on CI (an env var CI is exists and is set to something/anything) - tests have 60s else 30s (usual default).
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -24,7 +25,11 @@ export default defineConfig<TestOptions>({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html', { title: 'Custom test run' }],
+    ['json', { outputFile: 'json-results/testresults.json' }],
+    ['allure-playwright']
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -43,25 +48,41 @@ export default defineConfig<TestOptions>({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'setup',
+      testMatch: 'globalSetup.ts',
+      timeout: 2 * 60 * 1000,
+      teardown: 'teardown'
+    },
+    {
+      name: 'teardown',
+      testMatch: 'globalTeardown.ts',
+      use: { storageState: STORAGE_STATE }
+    },
+    {
       name: 'chromium',
-      use: { 
+      use: {
         ...devices['Desktop Chrome'],
         person: 'Bob',
+        storageState: STORAGE_STATE
       },
-      
+      dependencies: ['setup'],
+
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'],
-        viewport: {width: 1920, height: 1080},
+      use: {
+        ...devices['Desktop Firefox'],
+        viewport: { width: 1920, height: 1080 },
         person: 'Alice',
-       },
+        storageState: STORAGE_STATE
+      },
+      dependencies: ['setup'],
     },
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] , actionTimeout: 10000},
+      use: { ...devices['Desktop Safari'], actionTimeout: 10000 },
       default: false,
     },
 

@@ -1,6 +1,6 @@
 import { test, expect} from '@playwright/test';
 
-test('Screenshots',async({page, browserName}, testInfo)=>{
+test('Screenshots',{annotation: [{type: "Custom annotation", description: "My custom info http://www.google.com"}]},async({page, browserName}, testInfo)=>{
     await page.goto('https://www.edgewordstraining.co.uk/webdriver2/docs/basicHtml.html');
     const screenshot = await page.screenshot(); //Capture screenshot bitmap in variable. Note there is not an easy way to assert on this currently. See workaround test.
     await page.screenshot({ path: './manualscreenshots/screenshot-viewport.png' });

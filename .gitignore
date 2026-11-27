@@ -6,3 +6,10 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+/allure-report/
+/allure-results/
+/json-results/
+#Storage state is potentially a sensitive secret.
+#Anyone with access can just restore the state in to their browser and will be logged in
+#Dont commit to repo
+user.json
