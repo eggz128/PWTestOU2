@@ -19,23 +19,27 @@ test('POM Login test', async ({ page }) => {
   const homePage = new HomePagePOM(page); //Init object from POM class
   await homePage.goToLoginPage(); //Use service method(s) provided by the POM
   const loginPage = new LoginPagePOM(page);
+  //Using "low-level" service methods
   // await loginPage.setUsername('edgewords');
   // await loginPage.setPassword('edgewords123');
   // await loginPage.submitForm();
+  //Or a "high level" service method that performs the whole task
   await loginPage.doLogin('edgewords', 'edgewords123');
-  //await loginPage.usernameTextBox.locator("xpath=./../../../div").click(); //Public locators can be misued as an 'escape hatch' back to the html of the page
+
+  //Warning: Leaving locators public can be misued as an 'escape hatch' back to the html of the page
+  //await loginPage.usernameTextBox.locator("xpath=./../../../div").click(); //negating the benefits of the POM
 
   //Should now be on Add record page (logged in)
   const addRecordPage = new AddRecordPagePOM(page);
   
-  //await expect(addRecordPage.heading).toHaveText('Add A Record To the Database');
-  //expect(await addRecordPage.getHeading()).toBe('Add A Record To the Database');
-  await expect.poll(async ()=>{
+  //await expect(addRecordPage.heading).toHaveText('Add A Record To the Database'); //Web-first assertion using public locator
+  //expect(await addRecordPage.getHeading()).toBe('Add A Record To the Database'); //Service method that returns value doesnt retry and may fire on the "wrong" page causing test flake
+  await expect.poll(async ()=>{ //expect.poll allows the service method to be retried with a Jest matcher
     return await addRecordPage.getHeading();
   }).toBe('Add A Record To the Database')
 });
 
-test('OR Test', async ({ page }) => {
+test('OR Test', async ({ page }) => { //Object Repository - forget the service methods, just keep locators in page classes
   await page.goto('https://www.edgewordstraining.co.uk/webdriver2/');
   const homePage = new HomePagePOM(page); //Init object repository
   await homePage.loginLink.click();
@@ -44,4 +48,7 @@ test('OR Test', async ({ page }) => {
   // await loginPage.usernameTextBox.fill('edgewords');
   // await loginPage.passwordTextBox.fill('edgewords123');
   await loginPage.submitButton.click();
+
+  const addRecordPage = new AddRecordPagePOM(page);
+  await expect(addRecordPage.heading).toHaveText('Add A Record To the Database'); //PW Web-first assertions remain available
 })
